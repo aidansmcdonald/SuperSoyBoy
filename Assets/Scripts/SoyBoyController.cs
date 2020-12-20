@@ -125,6 +125,8 @@ public class SoyBoyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        animator.SetFloat("Speed", Mathf.Abs(input.x));
+
         // 1
         input.x = Input.GetAxis("Horizontal");
         input.y = Input.GetAxis("Jump");
@@ -141,10 +143,12 @@ public class SoyBoyController : MonoBehaviour
         if (input.y >= 1f)
         {
             jumpDuration += Time.deltaTime;
+            animator.SetBool("IsJumping", true);
         }
         else
         {
             isJumping = false;
+            animator.SetBool("IsJumping", false);
             jumpDuration = 0f;
         }
 
@@ -155,6 +159,13 @@ public class SoyBoyController : MonoBehaviour
                 isJumping = true;
             }
         }
+
+        if (input.y > 0f)
+        {
+            isJumping = true;
+        }
+
+        animator.SetBool("IsOnWall", false);
 
         if (jumpDuration > jumpDurationThreshold) input.y = 0f;
     }
@@ -201,8 +212,21 @@ public class SoyBoyController : MonoBehaviour
         //Checks if there is wall, the player is not on the ground, and they are jumping
         if (IsWallToLeftOrRight() && !PlayerIsOnGround() && input.y == 1)
         {
-            rb.velocity = new Vector2(-GetWallDirection()
-            * speed * 0.75f, rb.velocity.y);
+            rb.velocity = new Vector2(-GetWallDirection() * speed
+            * 0.75f, rb.velocity.y);
+            animator.SetBool("IsOnWall", false);
+            animator.SetBool("IsJumping", true);
+        }
+        else if (!IsWallToLeftOrRight())
+        {
+            animator.SetBool("IsOnWall", false);
+            animator.SetBool("IsJumping", true);
+        }
+        //If player is on the wall
+        if (IsWallToLeftOrRight() && !PlayerIsOnGround())
+        {
+            //Set IsOnWall to true
+            animator.SetBool("IsOnWall", true);
         }
 
         if (isJumping && jumpDuration < jumpDurationThreshold)
