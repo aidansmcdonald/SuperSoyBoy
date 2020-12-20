@@ -163,3 +163,6 @@ MonoBehaviour:
   jumpDurationThreshold: 0.25
   airAccel: 3
   jump: 14
+  runClip: {fileID: 8300000, guid: 165d34f726d50f249946eef95f804e77, type: 3}
+  jumpClip: {fileID: 8300000, guid: 5397d8f0c36a76f4c9f6dcf720cf78b8, type: 3}
+  slideClip: {fileID: 8300000, guid: b27cd1c888b94524c92722e6a15eb294, type: 3}
